@@ -1,0 +1,59 @@
+<div class="row col-12 justify-content-between mb-3">
+  <button type=button data-toggle="collapse" data-target="transfer" class="btn btn-primary">Transfer</button>
+  <button type=button data-toggle="collapse" data-target="withdraw" class="btn btn-danger">Withdraw</button>
+  <button type=button data-toggle="collapse" data-target="deposit" class="btn btn-success">Deposit</button>
+</div>
+
+<div id="accordion">
+  <div class="row col-12 mb-3 collapse show" id="transfer" data-parent="#actions">
+    <form>
+      <div class="form-group">
+        <label>To</label><input #to type="text" placeholder="ExampleAccount">
+        <label>Amount</label><input #amount type="number" placeholder="0.0">
+      </div>
+      <button type="submit" (click)="transfer(to.value, amount.value)" class="btn btn-primary">Submit</button>
+    </form>
+  </div>
+
+  <div class="row col-12 mb-3 collapse" id="withdraw" data-parent="#actions">
+    <form>
+      <div class="form-group">
+        <label>Amount</label><input #amount type="number" placeholder="0.0">
+      </div>
+      <button type="submit" (click)="withdraw(amount.value)" class="btn btn-primary">Submit</button>
+    </form>
+  </div>
+
+  <div class="row col-12 mb-3 collapse" id="deposit" data-parent="#actions">
+    <form>
+      <div class="form-group">
+        <label>Amount</label><input #amount type="number" placeholder="0.0">
+      </div>
+      <button type="submit" (click)="deposit(amount.value)" class="btn btn-primary">Submit</button>
+    </form>
+  </div>
+</div>
+<div class="row">
+  <div class="col-12">
+    <ng-template [ngIf]="accountDetails" [ngIfElse]="loading">
+      <ul class="list-group">
+        <div *ngFor="let details of accountDetails">
+          <li class="list-group-item list-group-item-{{getColorByEventType(details.eventType)}}">
+            <div><label>User</label> {{details.ownerId}}</div>
+            <div><label>Saldo</label> {{details.saldo}}</div>
+            <div><label>Event</label> {{details.eventType}}</div>
+          </li>
+        </div>
+      </ul>
+    </ng-template>
+  </div>
+</div>
+
+
+<ng-template #loading>
+  <div><label>User</label> Loading...</div>
+  <div><label>Saldo</label> Loading...</div>
+</ng-template>
+
+
+

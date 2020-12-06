@@ -8,14 +8,15 @@ import {HttpClient} from '@angular/common/http';
 })
 export class OverviewComponent implements OnInit {
 
-  accountDetails;
+  accounts;
 
   constructor(private httpClient: HttpClient) { }
 
   ngOnInit(): void {
 
-    this.httpClient.get('http://localhost:8080/account/d7d5d615-57bc-495a-9c67-ca7ed4fa8a50/events').subscribe((data) => {
-      this.accountDetails = data;
+    this.httpClient.get('http://localhost:8080/account/').subscribe((data) => {
+      this.accounts = data;
     });
   }
+
 }

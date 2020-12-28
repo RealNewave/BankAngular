@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
+import {BankaccountService} from '../bankaccountservice/bankaccount.service';
 
 @Component({
   selector: 'app-overview',
@@ -10,11 +11,11 @@ export class OverviewComponent implements OnInit {
 
   accounts;
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient, private api: BankaccountService) {
+  }
 
   ngOnInit(): void {
-
-    this.httpClient.get('http://localhost:8080/account/').subscribe((data) => {
+    this.api.getAccounts().subscribe((data) => {
       this.accounts = data;
     });
   }

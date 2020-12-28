@@ -1,49 +1,66 @@
 <div class="row col-12 justify-content-between mb-3">
-  <button type=button data-toggle="collapse" data-target="transfer" class="btn btn-primary">Transfer</button>
-  <button type=button data-toggle="collapse" data-target="withdraw" class="btn btn-danger">Withdraw</button>
-  <button type=button data-toggle="collapse" data-target="deposit" class="btn btn-success">Deposit</button>
+  <button type=button class="btn btn-primary" (click)="showForm(0)">Transfer</button>
+  <button type=button class="btn btn-danger" (click)="showForm(1)">Withdraw</button>
+  <button type=button class="btn btn-success" (click)="showForm(2)">Deposit</button>
 </div>
 
-<div id="accordion">
-  <div class="row col-12 mb-3 collapse show" id="transfer" data-parent="#actions">
-    <form>
-      <div class="form-group">
-        <label>To</label><input #to type="text" placeholder="ExampleAccount">
-        <label>Amount</label><input #amount type="number" placeholder="0.0">
-      </div>
-      <button type="submit" (click)="transfer(to.value, amount.value)" class="btn btn-primary">Submit</button>
-    </form>
-  </div>
 
-  <div class="row col-12 mb-3 collapse" id="withdraw" data-parent="#actions">
-    <form>
-      <div class="form-group">
-        <label>Amount</label><input #amount type="number" placeholder="0.0">
+<!-- TODO create generic component-->
+<div class="row col-12 mb-3" *ngIf="formState[0]">
+  <form>
+    <div class="form-group">
+      <label>To</label>
+      <div class="input-group">
+        <input class="form-control" #to type="text" placeholder="ExampleAccount">
+        <div ngbDropdown>
+          <button id="contactsDropdown" type="button" class="btn btn-info" ngbDropdownToggle>Contacts</button>
+          <div ngbDropdownMenu aria-labelledby="contactsDropdown">
+            <div *ngFor="let account of accounts">
+              <div ngbDropdownItem (click)="to.value = account.id">{{account.id}}</div>
+            </div>
+          </div>
+        </div>
       </div>
-      <button type="submit" (click)="withdraw(amount.value)" class="btn btn-primary">Submit</button>
-    </form>
-  </div>
-
-  <div class="row col-12 mb-3 collapse" id="deposit" data-parent="#actions">
-    <form>
-      <div class="form-group">
-        <label>Amount</label><input #amount type="number" placeholder="0.0">
-      </div>
-      <button type="submit" (click)="deposit(amount.value)" class="btn btn-primary">Submit</button>
-    </form>
-  </div>
+    </div>
+    <div class="form-group">
+      <label>Amount</label>
+      <input class="form-control" #amount type="number" placeholder="0.0">
+    </div>
+    <button type="button" (click)="transfer(to.value, amount.value)" class="btn btn-primary">Submit</button>
+  </form>
 </div>
+
+<div class="row col-12 mb-3" *ngIf="formState[1]">
+  <form>
+    <div class="form-group">
+      <label>Amount</label>
+      <input class="form-control" #amount type="number" placeholder="0.0">
+    </div>
+    <button type="button" (click)="withdraw(amount.value)" class="btn btn-primary">Submit</button>
+  </form>
+</div>
+
+<div class="row col-12 mb-3" *ngIf="formState[2]">
+  <form>
+    <div class="form-group">
+      <label>Amount</label>
+      <input class="form-control" #amount type="number" placeholder="0.0">
+    </div>
+    <button type="button" (click)="deposit(amount.value)" class="btn btn-primary">Submit</button>
+  </form>
+</div>
+
 <div class="row">
   <div class="col-12">
     <ng-template [ngIf]="accountDetails" [ngIfElse]="loading">
       <ul class="list-group">
-        <div *ngFor="let details of accountDetails">
+        <ng-container *ngFor="let details of accountDetails">
           <li class="list-group-item list-group-item-{{getColorByEventType(details.eventType)}}">
             <div><label>User</label> {{details.ownerId}}</div>
             <div><label>Saldo</label> {{details.saldo}}</div>
             <div><label>Event</label> {{details.eventType}}</div>
           </li>
-        </div>
+        </ng-container>
       </ul>
     </ng-template>
   </div>
